@@ -1,31 +1,26 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Mi Ubicación GPS (Standalone)</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Mi Ubicación App</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card *ngIf="latitude() !== null && longitude() !== null">
+  <ion-button expand="block" (click)="registrarUbicacion()">
+    <ion-icon name="location-outline" slot="start"></ion-icon>
+    Registrar en Supabase
+  </ion-button>
+
+  <ion-card *ngIf="latitud">
     <ion-card-header>
-      <ion-card-title>Coordenadas actuales</ion-card-title>
+      <ion-card-title>Coordenadas Capturadas</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Latitud:</strong> {{ latitude() }}</p>
-      <p><strong>Longitud:</strong> {{ longitude() }}</p>
+      <p><strong>Lat:</strong> {{ latitud }}</p>
+      <p><strong>Lng:</strong> {{ longitud }}</p>
+      
+      <ion-button expand="block" color="secondary" (click)="abrirMapa()" class="ion-margin-top">
+        Ver en Google Maps
+      </ion-button>
     </ion-card-content>
   </ion-card>
-
-  <p *ngIf="errorMsg()">{{ errorMsg() }}</p>
-
-  <ion-button expand="block" (click)="obtenerUbicacionActual()">
-    Obtener ubicación actual
-  </ion-button>
-
-  <ion-button expand="block" (click)="iniciarSeguimiento()" [disabled]="watchId !== null">
-    Iniciar seguimiento
-  </ion-button>
-
-  <ion-button expand="block" color="medium" (click)="detenerSeguimiento()" [disabled]="watchId === null">
-    Detener seguimiento
-  </ion-button>
 </ion-content>

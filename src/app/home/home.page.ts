@@ -1,65 +1,69 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { NgIf } from '@angular/common';
-import { LocationService } from '../services/location';
+import { Component } from '@angular/core';
+import { Geolocation } from '@capacitor/geolocation';
+import { SupabaseService } from '../services/supabase.service';
+import { IonicModule } from '@ionic/angular';
+import { Browser } from '@capacitor/browser';
+import { CommonModule } from '@angular/common'; // <--- IMPORTANTE: Añade esto
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-    IonButton, NgIf
-  ],
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss']
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+  standalone: true, // Asegúrate de que diga true si usas imports
+  imports: [IonicModule, CommonModule] // <--- AÑADE CommonModule AQUÍ
 })
-export class HomePage implements OnInit, OnDestroy {
-  latitude = signal<number | null>(null);
-  longitude = signal<number | null>(null);
-  watchId: string | null = null;
-  errorMsg = signal<string | null>(null);
+export class HomePage {
+  latitud: number | null = null;
+  longitud: number | null = null;
+  googleMapsUrl: string | null = null;
 
-  constructor(private loc: LocationService) {}
+  constructor(private supabaseService: SupabaseService) {}
 
-  async ngOnInit() {
-    await this.loc.ensurePermissions();
-    await this.obtenerUbicacionActual();
-    await this.iniciarSeguimiento();
-  }
-
-  async obtenerUbicacionActual() {
+  async registrarUbicacion() {
     try {
-      const pos = await this.loc.getCurrentPosition();
-      this.latitude.set(pos.coords.latitude);
-      this.longitude.set(pos.coords.longitude);
-      this.errorMsg.set(null);
-    } catch (e: any) {
-      this.errorMsg.set(e?.message ?? 'Error al obtener la ubicación actual');
+      // --- PASO CRÍTICO: SOLICITAR PERMISOS ---
+      const checkStatus = await Geolocation.checkPermissions();
+      
+      if (checkStatus.location !== 'granted') {
+        const requestStatus = await Geolocation.requestPermissions();
+        if (requestStatus.location !== 'granted') {
+          alert('No se puede obtener la ubicación sin permisos.');
+          return;
+        }
+      }
+      // ---------------------------------------
+
+      const coordinates = await Geolocation.getCurrentPosition();
+      this.latitud = coordinates.coords.latitude;
+      this.longitud = coordinates.coords.longitude;
+
+      const data = {
+        latitud: this.latitud,
+        longitud: this.longitud,
+        fecha: new Date().toISOString(),
+        usuario: 'adrian_ramos' 
+      };
+
+      const { error } = await this.supabaseService.supabase
+        .from('historial_ubicaciones')
+        .insert([data]);
+
+      if (error) throw error;
+
+      alert('Ubicación guardada en Supabase.');
+
+    } catch (err: any) {
+      console.error('Error:', err);
+      alert('Error: ' + err.message);
     }
   }
 
-  async iniciarSeguimiento() {
-    try {
-      this.watchId = await this.loc.watchPosition((pos) => {
-        this.latitude.set(pos.coords.latitude);
-        this.longitude.set(pos.coords.longitude);
-      }, (err) => {
-        this.errorMsg.set(err?.message ?? 'Error en seguimiento de ubicación');
-      });
-    } catch (e: any) {
-      this.errorMsg.set(e?.message ?? 'No se pudo iniciar el seguimiento');
+  async abrirMapa() {
+    if (this.latitud && this.longitud) {
+      const url = `https://www.google.com/maps?q=${this.latitud},${this.longitud}`;
+      await Browser.open({ url: url });
+    } else {
+      alert('No hay coordenadas registradas');
     }
-  }
-
-  async detenerSeguimiento() {
-    if (this.watchId) {
-      await this.loc.clearWatch(this.watchId);
-      this.watchId = null;
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.watchId) this.loc.clearWatch(this.watchId);
   }
 }
