@@ -101,31 +101,31 @@ La aplicación:
 
 ## Splash Screen
 
-![Splash](imagenes/splash.png)
+![Splash Screen](https://raw.githubusercontent.com/WilmerRamos21/taller_apps_moviles/main/splash-screen.jpeg)
 
 ---
 
 ## Inicio de sesión
 
-![Login](imagenes/login.png)
+![Login](https://github.com/WilmerRamos21/taller_apps_moviles/blob/main/login.jpeg)
 
 ---
 
 ## Pantalla principal
 
-![Inicio](imagenes/inicio.png)
+![Pantalla Inicial](https://raw.githubusercontent.com/WilmerRamos21/taller_apps_moviles/main/pantalla_inicial.jpeg)
 
 ---
 
 ## Coordenadas obtenidas
 
-![Coordenadas](imagenes/coordenadas.png)
+![Coordenadas](https://raw.githubusercontent.com/WilmerRamos21/taller_apps_moviles/main/coordenadas.jpeg)
 
 ---
 
 ## Ubicación en Google Maps
 
-![Maps](imagenes/maps.png)
+![Google Maps](https://raw.githubusercontent.com/WilmerRamos21/taller_apps_moviles/main/google_maps.jpeg)
 
 ---
 
