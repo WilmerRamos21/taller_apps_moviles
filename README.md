@@ -95,7 +95,7 @@ La aplicación:
 
 ## Icono de la aplicación
 
-![Icono](https://raw.githubusercontent.com/WilmerRamos21/taller_apps_moviles/main/icono.jpg)
+![Icono](![Icono](https://raw.githubusercontent.com/WilmerRamos21/taller_apps_moviles/main/icono.jpg))
 
 ---
 
