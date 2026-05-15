@@ -132,5 +132,8 @@ La aplicación:
 ## 👨‍💻 Autor
 
 Wilmer Ramos
+-
 Nicolas Chiguano 
+-
 Gabriel Escobar
+-
