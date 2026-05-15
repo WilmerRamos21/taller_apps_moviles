@@ -128,6 +128,8 @@ La aplicación:
 ![Google Maps](https://raw.githubusercontent.com/WilmerRamos21/taller_apps_moviles/main/google_maps.jpeg)
 
 ---
+Link del APK: https://epnecuador-my.sharepoint.com/:u:/g/personal/edison_escobar01_epn_edu_ec/IQCoGsZuNct6SaDl2o6NvudvAYNWwXyy8-ISjBdQRH8l4Hs?e=Q0Fn9g
+---
 
 ## 👨‍💻 Integrantes
 
