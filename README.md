@@ -131,4 +131,6 @@ La aplicación:
 
 ## 👨‍💻 Autor
 
-Desarrollado por: Tu Nombre
+Wilmer Ramos
+Nicolas Chiguano 
+Gabriel Escobar
